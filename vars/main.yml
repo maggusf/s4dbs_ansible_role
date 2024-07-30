@@ -12,7 +12,7 @@ pdb_user: "postgres"
 pdb_host: "s4dbs_postgres"
 pdb_port: 5432
 pdb_db_name: "speedgain"
-collector_loglevel: "DEBUG"
+collector_loglevel: "INFO"
 service_loglevel: "INFO"
 
 # CPU and Memory allocations per container
