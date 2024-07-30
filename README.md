@@ -79,4 +79,4 @@ This role is licensed under the MIT License.
 
 ## Author Information
 
-This role was created in 2024 by [Markus Fraune]. 
+This role was created in 2024 by Markus Fraune. 
