@@ -13,7 +13,9 @@ This Ansible role installs Speedgain, a performance observability tool for datab
 
 ## Role Variables
 
-This role supports the following variables (vars/main.yml), which you can override in your playbook or inventory files:
+This role supports the following variables (vars/main.yml), which you can override in your playbook or inventory files.
+
+### Basic Variables
 
 - **`s4dbs_base_dir`**: Base directory for SpeedGain installation. Default is `/opt/s4dbs`.
 - **`postgres_volume_path`**: Path for PostgreSQL data volume. Default is `{{ s4dbs_base_dir }}/postgres`.
