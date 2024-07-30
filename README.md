@@ -52,7 +52,7 @@ This role supports the following variables (vars/main.yml), which you can overri
 
 This role does not have any additional role dependencies.
 
-## Example Playbook
+## Example Playbook with custom role
 
 Here’s a basic example of how to use this role in an Ansible playbook:
 
@@ -63,6 +63,19 @@ Here’s a basic example of how to use this role in an Ansible playbook:
   become: yes
   roles:
     - s4dbs
+```
+
+## Example Playbook Ansible Galaxy role
+
+Here’s a basic example of how to use this role in an Ansible playbook:
+
+```yaml
+---
+- name: Manage s4dbs containers
+  hosts: localhost
+  become: yes
+  roles:
+    - maggusf.s4dbs
 ```
 
 ## Usage
