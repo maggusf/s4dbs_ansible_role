@@ -1,0 +1,4 @@
+---
+- name: Create Podman network
+  containers.podman.podman_network:
+    name: s4dbs_network

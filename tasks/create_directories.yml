@@ -1,0 +1,12 @@
+---
+- name: Ensure s4dbs base directory exists
+  file:
+    path: "{{ s4dbs_base_dir }}"
+    state: directory
+
+- name: Ensure postgres volume directory exists
+  file:
+    path: "{{ postgres_volume_path }}"
+    state: directory
+    owner: 70
+    group: 70

@@ -1,0 +1,101 @@
+---
+- name: Run timescale/postgres container
+  containers.podman.podman_container:
+    name: s4dbs_postgres
+    image: "docker.io/timescale/timescaledb:{{ timescaledb_image_tag }}"
+    state: started
+    network:
+      - s4dbs_network
+    volumes:
+      - "{{ postgres_volume_path }}:/var/lib/postgresql/data:Z"
+    detach: true
+    cpus: "{{ s4dbs_postgres_cpus }}"
+    memory: "{{ s4dbs_postgres_memory }}"
+    secrets: 
+      - "s4dbs_pdbpass,type=env,target=POSTGRES_PASSWORD"
+
+- name: Run s4dbs_collector container
+  containers.podman.podman_container:
+    name: s4dbs_collector
+    image: "docker.io/itgainis/s4dbs_collector:{{ s4dbs_collector_image_tag }}"
+    state: started
+    network:
+      - s4dbs_network
+    env:
+      PDB_USER: "{{ pdb_user }}"
+      PDB_HOST: "{{ pdb_host }}"
+      PDB_PORT: "{{ pdb_port }}"
+      PDB_DB_NAME: "{{ pdb_db_name }}"
+      SPGLOGLEVEL: "{{ collector_loglevel }}"
+    detach: true
+    cpus: "{{ s4dbs_collector_cpus }}"
+    memory: "{{ s4dbs_collector_memory }}"
+    secrets:
+      - "s4dbs_pdbpass,type=env,target=PDB_PASS"
+
+- name: Run s4dbs_service container
+  containers.podman.podman_container:
+    name: s4dbs_service
+    image: "docker.io/itgainis/s4dbs_service:{{ s4dbs_service_image_tag }}"
+    state: started
+    network:
+      - s4dbs_network
+    env:
+      PDB_USER: "{{ pdb_user }}"
+      PDB_HOST: "{{ pdb_host }}"
+      PDB_PORT: "{{ pdb_port }}"
+      PDB_DB_NAME: "{{ pdb_db_name }}"
+      SPGLOGLEVEL: "{{ service_loglevel }}"
+    detach: true
+    cpus: "{{ s4dbs_service_cpus }}"
+    memory: "{{ s4dbs_service_memory }}"
+    secrets:
+      - "s4dbs_pdbpass,type=env,target=PDB_PASS"
+
+- name: Run s4dbs_grafana container
+  containers.podman.podman_container:
+    name: s4dbs_grafana
+    image: "docker.io/itgainis/s4dbs_grafana:{{ s4dbs_grafana_image_tag }}"
+    state: started
+    network:
+      - s4dbs_network
+    env:
+      PDB_USER: "{{ pdb_user }}"
+      PDB_HOST: "{{ pdb_host }}"
+      PDB_PORT: "{{ pdb_port }}"
+      PDB_DB_NAME: "{{ pdb_db_name }}"
+      GF_SERVER_SERVE_FROM_SUB_PATH: true
+      GF_SERVER_ROOT_URL: "%(protocol)s://%(domain)s:%(http_port)s/grafana/"
+    detach: true
+    cpus: "{{ s4dbs_grafana_cpus }}"
+    memory: "{{ s4dbs_grafana_memory }}"
+    secrets:
+      - "s4dbs_pdbpass,type=env,target=PDB_PASS"
+
+- name: Run s4dbs_frontend container
+  containers.podman.podman_container:
+    name: s4dbs_frontend
+    image: "docker.io/itgainis/s4dbs_frontend:{{ s4dbs_frontend_image_tag }}"
+    state: started
+    network:
+      - s4dbs_network
+    env:
+      FRONTEND_CONFIG_MODE: "false"
+    detach: true
+    cpus: "{{ s4dbs_frontend_cpus }}"
+    memory: "{{ s4dbs_frontend_memory }}"
+
+- name: Run s4dbs_reverse container
+  containers.podman.podman_container:
+    name: s4dbs_reverse
+    image: "docker.io/nginx:{{ nginx_image_tag }}"
+    state: started
+    network:
+      - s4dbs_network
+    ports:
+      - "80:80"
+    volumes:
+      - "{{ s4dbs_base_dir }}/nginx.conf:/etc/nginx/nginx.conf:Z"
+    detach: true
+    cpus: "{{ s4dbs_reverse_cpus }}"
+    memory: "{{ s4dbs_reverse_memory }}"

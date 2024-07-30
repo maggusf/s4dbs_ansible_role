@@ -1,0 +1,5 @@
+---
+- name: Copy nginx.conf
+  copy:
+    src: nginx.conf
+    dest: "{{ s4dbs_base_dir }}/nginx.conf"

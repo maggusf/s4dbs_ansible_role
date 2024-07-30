@@ -1,0 +1,6 @@
+---
+- name: Manage s4dbs containers
+  hosts: localhost
+  become: yes
+  roles:
+    - s4dbs

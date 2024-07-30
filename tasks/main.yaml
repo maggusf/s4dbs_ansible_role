@@ -1,0 +1,6 @@
+---
+- include_tasks: create_directories.yml
+- include_tasks: copy_files.yml
+- include_tasks: create_network.yml
+- include_tasks: create_secret.yml
+- include_tasks: run_containers.yml

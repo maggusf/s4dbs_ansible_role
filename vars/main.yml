@@ -1,0 +1,30 @@
+---
+s4dbs_base_dir: "/opt/s4dbs"
+postgres_volume_path: "{{ s4dbs_base_dir }}/postgres"
+s4dbs_secret_password: "MySuperSecretPassword"
+timescaledb_image_tag: "2.11.2-pg13"
+s4dbs_collector_image_tag: "1.7.0"
+s4dbs_service_image_tag: "1.7.0"
+s4dbs_grafana_image_tag: "1.7.0"
+s4dbs_frontend_image_tag: "1.7.0"
+nginx_image_tag: "1.27"
+pdb_user: "postgres"
+pdb_host: "s4dbs_postgres"
+pdb_port: 5432
+pdb_db_name: "speedgain"
+collector_loglevel: "DEBUG"
+service_loglevel: "INFO"
+
+# CPU and Memory allocations per container
+s4dbs_postgres_cpus: 4
+s4dbs_postgres_memory: 16G
+s4dbs_collector_cpus: 4
+s4dbs_collector_memory: 0G
+s4dbs_service_cpus: 1
+s4dbs_service_memory: 0G
+s4dbs_grafana_cpus: 2
+s4dbs_grafana_memory: 4G
+s4dbs_frontend_cpus: 1
+s4dbs_frontend_memory: 1G
+s4dbs_reverse_cpus: 1
+s4dbs_reverse_memory: 1G
